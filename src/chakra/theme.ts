@@ -28,5 +28,5 @@ export const theme = extendTheme({
     },
     components: { //komponenty ui oferowane przez chakre
         // Button
-    }
+    },
 });
