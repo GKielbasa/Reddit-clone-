@@ -5,7 +5,7 @@ import { useRecoilState } from 'recoil';
 import AuthInputs from './AuthInputs';
 import OAuthButtons from './OAuthButtons';
 
-const AuthMadel:React.FC = () => {    
+const AuthModal:React.FC = () => {    
     const [modalState, setModalState] = useRecoilState(AuthModalState);
 
     const handleClose = () => {
@@ -25,7 +25,7 @@ const AuthMadel:React.FC = () => {
                     {modalState.view === 'login' && 'Login'}
                     {modalState.view === 'singup' && "Sing up"}
                     {modalState.view === 'resetPassword' && "Reset Password"}
-                    
+
                 </ModalHeader>
                 <ModalCloseButton />
                 <ModalBody 
@@ -33,6 +33,7 @@ const AuthMadel:React.FC = () => {
                     flexDirection='column' 
                     alignItems='center' 
                     justifyContent='center'
+                    pb={6}
                     //border="1px solid red"
                 >  
                     <Flex //div z inputami i buttonami 
@@ -54,4 +55,4 @@ const AuthMadel:React.FC = () => {
     </>
     )
 }
-export default AuthMadel;
+export default AuthModal;
