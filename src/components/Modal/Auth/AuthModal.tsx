@@ -1,10 +1,10 @@
 import { AuthModalState } from '@/src/atoms/authModalAtom';
-import { useDisclosure, Button, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, Flex } from '@chakra-ui/react';
+import { Flex, Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalOverlay, Text } from '@chakra-ui/react';
 import React from 'react';
 import { useRecoilState } from 'recoil';
 import AuthInputs from './AuthInputs';
+import OAuthButtons from './OAuthButtons';
 
-// nasz modal ma się pokazywac onClick buttonów należy zmodyfikowac import  z chakra UI
 const AuthMadel:React.FC = () => {    
     const [modalState, setModalState] = useRecoilState(AuthModalState);
 
@@ -21,10 +21,11 @@ const AuthMadel:React.FC = () => {
             <ModalOverlay />
             <ModalContent > 
                 {/* text w modalu     */}
-                <ModalHeader textAlign={'center'}> 
+                <ModalHeader textAlign={'center'} > 
                     {modalState.view === 'login' && 'Login'}
                     {modalState.view === 'singup' && "Sing up"}
                     {modalState.view === 'resetPassword' && "Reset Password"}
+                    
                 </ModalHeader>
                 <ModalCloseButton />
                 <ModalBody 
@@ -32,17 +33,19 @@ const AuthMadel:React.FC = () => {
                     flexDirection='column' 
                     alignItems='center' 
                     justifyContent='center'
+                    //border="1px solid red"
                 >  
-                    <Flex //pasek w modal formie
+                    <Flex //div z inputami i buttonami 
                         direction='column' 
                         align='center' 
                         justify='center'
                         width='70%'
                         // border="1px solid red"
                     >
+                        <OAuthButtons />
+                        <Text color={'gray.500'} fontWeight={700}>OR</Text>
                         <AuthInputs />
-                        {/* <OAuthButtons />
-                        <ResetPassword /> */}
+                        {/*<ResetPassword /> */}
                     </Flex>
 
                 </ModalBody>
