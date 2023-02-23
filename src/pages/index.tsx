@@ -1,4 +1,4 @@
-//index.tsx to wszystko co jest wyrenderowane na screenie (homepage), kardza strona dodana do folderu ppages bedzie dodana do route 
+//index.tsx to wszystko co jest wyrenderowane na screenie (homepage), kazda  strona dodana do folderu pages bedzie dodana do route 
 
 import Head from 'next/head'
 import Image from 'next/image'

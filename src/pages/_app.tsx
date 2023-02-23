@@ -1,4 +1,4 @@
-//app.tsx reprezentuje całą naszą aplikacje, wszystkie strony i karzdy komponent będzie dzieckiem tego komponentu
+//app.tsx reprezentuje całą naszą aplikacje, wszystkie strony i kazdy komponent będzie dzieckiem tego komponentu
 
 //import '@/src/styles/globals.css'
   //cały css bedzie dostarczony przez chakra

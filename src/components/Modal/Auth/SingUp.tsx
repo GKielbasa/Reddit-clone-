@@ -4,7 +4,8 @@ import { Button, Flex, Input, Text } from '@chakra-ui/react';
 import React, { useState } from 'react';
 import { useSetRecoilState } from 'recoil';
 import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
-import { auth } from '../../../firebase/clientApp'
+import { auth} from '../../../firebase/clientApp'
+import { FIREBASE_ERROR } from '@/src/firebase/errors';
 
 type SingUpProps = {
     
@@ -30,7 +31,7 @@ const SingUp:React.FC<SingUpProps> = () => {
         userError,
     ] =  useCreateUserWithEmailAndPassword(auth); //auth zrobilismy w clientApp
 
-    // Firebase logic 
+// Firebase logic 
     const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();      
         if(error) setError("");
@@ -77,7 +78,8 @@ const SingUp:React.FC<SingUpProps> = () => {
                     borderColor: "blue.500"
                 }}
                 bg="gray.50"              
-            />                
+            />
+
             <Input 
                 required
                 name="password"
@@ -100,6 +102,7 @@ const SingUp:React.FC<SingUpProps> = () => {
                 }}
                 bg="gray.50"
             />
+
             <Input 
                 required
                 name="confirmPassword"
@@ -123,13 +126,11 @@ const SingUp:React.FC<SingUpProps> = () => {
                 bg="gray.50"
             />
 
-            
-                { error &&(
-                    <Text textAlign={'center'} color="red" marginBottom={"5px"} fontSize="0.8em">
-                        {error} 
-                    </Text>
-                )}
-            
+            <Text textAlign={'center'} color="red" marginBottom={"5px"} fontSize="0.8em">
+                { error  
+                    || FIREBASE_ERROR[userError?.message as keyof typeof FIREBASE_ERROR]
+                } 
+                </Text>          
 
             <Button 
                 type="submit" 
