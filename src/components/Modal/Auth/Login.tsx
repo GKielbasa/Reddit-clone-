@@ -40,92 +40,97 @@ const Login:React.FC<LoginProps> = () => {
     };
 
     return (
-        <form onSubmit={onSubmit}>
-            <Input 
-                required
-                name="email" 
-                placeholder="email" 
-                type="email" 
-                mb={2} //margin 
-                onChange={onChange}
-                fontSize="10pt"
-                _placeholder={{color: "grey.500"}}
-                _hover={{
-                    bg: "white",
-                    border: "1px solid",
-                    borderColor: "blue.500",
-                }}
-                _focus={{
-                    outline: "none",
-                    bg: "white",
-                    border: "1px solid",
-                    borderColor: "blue.500",
-                }}
-                bg="gray.50"
-            />
-            <Input 
-                required
-                name="password"
-                placeholder='password'
-                type='password'
-                mb={2}
-                onChange={onChange}
-                fontSize="10pt"
-                _placeholder={{color: "grey.500"}}
-                _hover={{
-                    bg: "white",
-                    border: "1px solid",
-                    borderColor: "blue.500",
-                }}
-                _focus={{
-                    outline: "none",
-                    bg: "white",
-                    border: "1px solid",
-                    borderColor: "blue.500",
-                }}
-                bg="gray.50"
-            />   
+      <form onSubmit={onSubmit}>
+        <Input
+          required
+          name="email"
+          placeholder="email"
+          type="email"
+          mb={2} //margin
+          onChange={onChange}
+          fontSize="10pt"
+          _placeholder={{ color: "grey.500" }}
+          _hover={{
+            bg: "white",
+            border: "1px solid",
+            borderColor: "blue.500",
+          }}
+          _focus={{
+            outline: "none",
+            bg: "white",
+            border: "1px solid",
+            borderColor: "blue.500",
+          }}
+          bg="gray.50"
+        />
+        <Input
+          required
+          name="password"
+          placeholder="password"
+          type="password"
+          mb={2}
+          onChange={onChange}
+          fontSize="10pt"
+          _placeholder={{ color: "grey.500" }}
+          _hover={{
+            bg: "white",
+            border: "1px solid",
+            borderColor: "blue.500",
+          }}
+          _focus={{
+            outline: "none",
+            bg: "white",
+            border: "1px solid",
+            borderColor: "blue.500",
+          }}
+          bg="gray.50"
+        />
 
-            <Text textAlign={'center'} color="red">
-                {FIREBASE_ERROR[error?.message as keyof typeof FIREBASE_ERROR]}
-            </Text>    
-            <Button type="submit" width='100%' height={'36px'} mb="2" isLoading={loading}>
-                Log In 
-            </Button>
-            <Flex justifyContent={"center"} mb={2}>  
-                <Text  fontSize="9pt">
-                    Forget username or password ?
-                </Text>
-                <Text
-                    fontSize={'9pt'}
-                    color="blue.500"
-                    cursor={"pointer"}
-                    onClick={() => {
-                        setAuthModalState((prev) => ({
-                            ...prev,
-                            view: "resetPassword",
-                        }))
-                    }}
-                >
-                    Reset 
-                </Text>
-            </Flex>  
-            <Flex fontSize={'9pt'} justifyContent="center">
-                <Text mr={1}>New here?</Text>
-                <Text 
-                    color={"blue.500"} 
-                    fontWeight="700" 
-                    cursor={"pointer"} 
-                    onClick={() => setAuthModalState(prev => ({
-                            ...prev,
-                            view: 'singup',
-                        }))
-                    }
-                >
-                        SIGN UP
-                    </Text>
-            </Flex>
-        </form>
-    )
+        <Text textAlign={"center"} color="red">
+          {FIREBASE_ERROR[error?.message as keyof typeof FIREBASE_ERROR]}
+        </Text>
+        <Button
+          type="submit"
+          width="100%"
+          height={"36px"}
+          mb="2"
+          isLoading={loading}
+        >
+          Log In
+        </Button>
+        <Flex justifyContent={"center"} mb={2}>
+          <Text fontSize="9pt">Forget username or password ?</Text>
+          <Text
+            fontSize={"9pt"}
+            color="blue.500"
+            cursor={"pointer"}
+            onClick={() => {
+              setAuthModalState((prev) => ({
+                ...prev,
+                view: "resetPassword",
+              }));
+            }}
+          >
+            Reset
+          </Text>
+        </Flex>
+        <Flex fontSize={"9pt"} justifyContent="center">
+          <Text mr={1}>New here?</Text>
+          <Text
+            color={"blue.500"}
+            fontWeight="700"
+            cursor={"pointer"}
+            onClick={() =>
+              setAuthModalState((prev) => ({
+                ...prev,
+                view: "singup",
+              }))
+            }
+          >
+            SIGN UP
+          </Text>
+        </Flex>
+      </form>
+    );
 }
 export default Login;

@@ -21,7 +21,7 @@ const AuthModal:React.FC = () => {
 
     useEffect(() => {
         if (user) handleClose();
-        console.log("user", user);
+       //console.log("user", user);
 // eslint-disable-next-line react-hooks/exhaustive-deps
 }, [user]);
 
