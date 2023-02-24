@@ -24,49 +24,50 @@ const CreateCommunityModal:React.FC<CreateCommunityModalProps> = ({
     const [charsRemaining, setCharsRemaining] =useState(21);
     const [communityType, setCommunityType] = useState("public");
     const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
 
     const handleCharsChange = (event: React.ChangeEvent<HTMLInputElement>) => {
       if (event.target.value.length > 21) return;
-
       setCommunityName(event.target.value);
-      //recalculte how many chars we have left in the input
       setCharsRemaining(21 - event.target.value.length);
     }
 
     const onCommunityTypeChange =(event: React.ChangeEvent<HTMLInputElement>) => {
-
       setCommunityType(event.target.name)
     };
 
+//funkcja odpowiadająca za tworzenie społeczności, obsługa bazy danych     
     const handleCreateCommunity = async () => {
-      //validate the community name
+      if (error) setError("");
       const specialChars = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
       if (specialChars.test(communityName) || communityName.length < 3) {
         setError('Community names must be between 3-21 characters, and can only contain letters, numbers or underscores');
         return;
       }
-      //create the community document in firestorme
-        //check that name is not taken
-        //if valid name, create community (create document reference )
+
+      setLoading(true);
+      try {
         const communityDocRef = doc(firestore, 'communities', communityName)
-        const communityDoc = await getDoc(communityDocRef);
-        //firebase działa na zasadzie że mamy dokument i referencjie do neiego fire storm zawsze musi być 1 arg aby wiedział w której bazie szukac
+        const communityDoc = await getDoc(communityDocRef); 
 
+        //check if community exist 
         if (communityDoc.exists()){
-          setError(`Sorry, r/${communityName} is taken. Try another.`);
-          return;
+          throw new Error(`Sorry, r/${communityName} is taken. Try another.`);
+          //Jezli wystąpi bład zostanie wyłapany przez catch i nie wykona się część kodu pomiedzy dlatego niema return
         }
-
         // Create communmity 
-
-        //fucntion provided by firebase it wil update existing doc or create new one 
+//function provided by firebase it will update existing doc or create new one 
         await setDoc(communityDocRef, {
-          // creatorId, createdAt, numberOfMembers, privacyType
           creatorId: user?.uid,
           createdAt: serverTimestamp(),
           numberOfMembers: 1,
           privacyType: communityType,
         });
+      } catch (error: any) {
+        console.log('handleCreateCommunity error', error);
+        setError(error.message);
+      }
+        setLoading(false);
     }
 
     return (
@@ -128,8 +129,7 @@ const CreateCommunityModal:React.FC<CreateCommunityModalProps> = ({
                     <Checkbox
                       name="public"
                       isChecked={communityName === "public"}
-                      onChange={onCommunityTypeChange}
-                      
+                      onChange={onCommunityTypeChange}  
                     >
                       <Flex align="center">
                         <Icon as={BsFillPersonFill} color="gray.500" mr={2} />
@@ -187,7 +187,7 @@ const CreateCommunityModal:React.FC<CreateCommunityModalProps> = ({
               >
                 Cancel
               </Button>
-              <Button  height="30px" onClick={() => {}}>
+              <Button  height="30px" onClick={handleCreateCommunity} isLoading={loading}>
                 Create Community
               </Button>
             </ModalFooter>
