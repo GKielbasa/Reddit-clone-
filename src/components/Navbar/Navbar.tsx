@@ -5,17 +5,14 @@ import { Image } from "@chakra-ui/react";
 import React from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import Directory from './Directory/Directory';
-import RightContent from './RigthContent/RightContent';
+import RightContent from './RightContent/RightContent';
 import SearchInput from './SearchInput';
-
-
-
 
 
 const Navbar:React.FC = () => {  
     const [user, loading, error] = useAuthState(auth);
     return (
-      //Korzystając z Flex chakry można wpisac dowolna własciwosc
+      //Korzystając z Flex chakry można wpisac dowolna własciwosc in line 
       <Flex
         bg="white"
         height="44px"
