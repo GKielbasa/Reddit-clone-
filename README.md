@@ -1,4 +1,6 @@
-In development React, TypeScript, Next.js, fireBase clone of reddit 
+In development. 
+
+React, TypeScript, Next.js, fireBase clone of reddit 
  
 
 
