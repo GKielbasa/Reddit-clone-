@@ -1,4 +1,4 @@
-In development React, TypeScript, Next.js colone of reddit 
+In development React, TypeScript, Next.js, fireBase colone of reddit 
  
 
 
