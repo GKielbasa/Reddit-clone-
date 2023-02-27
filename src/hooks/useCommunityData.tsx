@@ -1,9 +1,9 @@
 import { Snippet } from "@next/font/google";
-import { collection, doc, getDocs } from "firebase/firestore";
+import { collection, doc, getDocs, increment, writeBatch } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useRecoilState } from "recoil";
-import { Community, CommunityState } from "../atoms/communitiesAtom";
+import { Community, CommunitySnippet, CommunityState } from "../atoms/communitiesAtom";
 import { auth, firestore } from "../firebase/clientApp";
 
 const useCommunityData = () => {
@@ -33,14 +33,61 @@ const useCommunityData = () => {
         const snippetDocs = await getDocs(collection(firestore, `users/${user?.uid}/communitySnippets`))
 
         const snippets = snippetDocs.docs.map((doc) => ({...doc.data() }))
-        console.log('here are snippets', snippets);
+        setCommunityStateValue((prev) => ({
+          ...prev,
+          mySnippets: snippets as CommunitySnippet[],
+        }));
 
-    } catch (error){
+    } catch (error: any){
         console.log('getMySnippets error', error);
+        setError(error.message);
     }
-  }
-  const joinCommunity = (communityData: Community) => {};
-  const leaveCommunity = (communityId: string) => {};
+    setLoading(false);
+  };
+
+  const joinCommunity = async (communityData: Community) => {
+    // batchWrite do bazyDanych
+    //update the numberOfMembers (+1)
+    try {
+      const batch = writeBatch(firestore);
+     
+      //create new community snippet
+      const newSnippet: CommunitySnippet = {
+        communityId: communityData.id,
+        imageURL: communityData.imageURL || "",
+      };
+      batch.set(
+        doc(
+          firestore,
+          `users/${user?.uid}/communitySnippets`,
+          communityData.id
+        ),
+        newSnippet
+      );
+      batch.update(doc(firestore, 'communities', communityData.id), {
+        numberOfMembers: increment(1),
+      })
+      await batch.commit();
+      // update recoil state - communityState.mySnippets
+      setCommunityStateValue( (prev) => ({
+        ...prev,
+        mySnippets: [...prev.mySnippets, newSnippet],
+      }))
+    } catch (error: any) {
+      console.log("joinCommunity error", error);
+      setError(error.messege);
+    }
+
+
+  };
+
+  const leaveCommunity = (communityId: string) => {
+        // batchWrite do bazyDanych
+     //delete new community snippet from user
+     //update the numberOfMembers (-1)
+
+    // update recoil state - communityState.mySnippets
+  };
 
   useEffect(() => {
     if(!user) return;
@@ -49,7 +96,8 @@ const useCommunityData = () => {
   
   return {
     communityStateValue,
-    onJoinOrLeaveCommunity
+    onJoinOrLeaveCommunity,
+    loading,
   };
 };
 export default useCommunityData;
