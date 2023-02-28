@@ -1,4 +1,4 @@
-In development. 
+IN DEVELOPMENT
 
 React, TypeScript, Next.js, fireBase clone of reddit 
  
