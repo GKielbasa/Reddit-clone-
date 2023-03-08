@@ -50,7 +50,7 @@ const useCommunityData = () => {
     //update the numberOfMembers (+1)
     try {
       const batch = writeBatch(firestore);
-     
+
       //create new community snippet
       const newSnippet: CommunitySnippet = {
         communityId: communityData.id,
@@ -64,15 +64,15 @@ const useCommunityData = () => {
         ),
         newSnippet
       );
-      batch.update(doc(firestore, 'communities', communityData.id), {
+      batch.update(doc(firestore, "communities", communityData.id), {
         numberOfMembers: increment(1),
-      })
+      });
       await batch.commit();
       // update recoil state - communityState.mySnippets
-      setCommunityStateValue( (prev) => ({
+      setCommunityStateValue((prev) => ({
         ...prev,
         mySnippets: [...prev.mySnippets, newSnippet],
-      }))
+      }));
     } catch (error: any) {
       console.log("joinCommunity error", error);
       setError(error.messege);
